@@ -6,10 +6,10 @@ namespace events {
     /**
      * Registers a callback for the specified event.
      */
-    //% blockId=eventsonevent block="on $event"
+    //% blockId=events_onevent block="on $event"
     //% event.defl="event"
     //% afterOnStart=true blockAllowMultiple=1
-    export function on(event: string, handler: () => void) {
+    export function on(event: string, handler: Action) {
         if (!handlerMap[event]) {
             handlerMap[event] = [];
         }
@@ -18,23 +18,21 @@ namespace events {
     }
 
     /**
-     * Unregisters a callback.
+     * Unregisters a callback (STS-only, doesn't work in blocks).
      */
-    export function off(event: string, handler: () => void) {
-        const handlers = handlerMap[event] || [];
-        while (handlers.removeElement(handler)) { }
+    export function off(event: string, handler: Action) {
+        if (handlerMap[event]) {
+            handlerMap[event] = handlerMap[event].filter((value) => value !== handler);
+        }
     }
 
     /**
-     * Raises the event.
+     * Raises an event.
      */
-    //% blockId=eventsraiseevent block="raise $event"
+    //% blockId=events_raiseevent block="raise $event"
     //% event.defl="event"
     export function raise(event: string) {
         const handlers = handlerMap[event] || [];
-        handlers.slice().forEach(function (handler) {
-            handler();
-        })
+        handlers.slice().forEach((handler) => handler());
     }
-
 }

@@ -10,7 +10,7 @@
         "README.md",
         "events.ts"
     ],
-    "preferredEditor": "blocksprj",
+    "preferredEditor": "tsprj",
     "testFiles": [
         "test.ts"
     ]
